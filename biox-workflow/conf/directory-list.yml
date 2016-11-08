@@ -1,0 +1,46 @@
+---
+global:
+    - indir: data/processed
+    - outdir: data/analysis
+    - analysis_dir: data/analysis
+    - root: data/analysis
+    - bowtie2: "data/analysis/{$sample}/bowtie2"
+    - bowtie2_dir: "{$self->root}/{$sample}/bowtie2"
+    - library: 1
+    - pcrModel: 0
+    - goldenVcf: 0
+    - ploidy: 2
+    - file_rule: (Sample.*)$
+    - by_sample_outdir: 1
+    - find_by_dir: 1
+    - wait: 0
+rules:
+    - list1:
+        local:
+                - INPUT: "{$self->indir}/trimmomatic/{$sample}"
+                - OUTPUT: "{$self->bowtie2_dir}/{$sample}_aligned.sam"
+        process: |
+                #TASK tags={$sample}
+                #INDIR
+                {$self->indir}
+                #OUTDIR
+                {$self->outdir}
+                #INPUT
+                {$self->INPUT}
+                #OUTPUT
+                {$self->OUTPUT}
+    - list2:
+        local:
+                - outdir: "{$self->samtools}"
+                - INPUT: "{$self->bowtie2_dir}/{$sample}_aligned.sam"
+                - OUTPUT: "{$self->samtools_dir}/{$sample}_aligned.bam"
+        process: |
+                #TASK tags={$sample}
+                #INDIR
+                {$self->indir}
+                #OUTDIR
+                {$self->outdir}
+                #INPUT
+                {$self->INPUT}
+                #OUTPUT
+                {$self->OUTPUT}
