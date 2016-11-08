@@ -6,10 +6,8 @@ global:
     - root: data/analysis
     - bowtie2: "data/analysis/{$sample}/bowtie2"
     - bowtie2_dir: "{$self->root}/{$sample}/bowtie2"
-    - library: 1
-    - pcrModel: 0
-    - goldenVcf: 0
-    - ploidy: 2
+    - samtools: "data/analysis/{$sample}/samtools"
+    - samtools_dir: "{$self->root}/{$sample}/samtools"
     - file_rule: (Sample.*)$
     - by_sample_outdir: 1
     - find_by_dir: 1
